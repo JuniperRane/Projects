@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MindReader
+{
+
+    class Program
+    {
+
+      static void Main(string[] args)
+      {
+
+        Console.WriteLine("Do you think I can read your thoughts?");
+        string userValue = Console.ReadLine();
+        string message = (userValue == "Yes" || userValue == "yes" || userValue == "sure") ? "Get ready to be impressed! Press enter when ready to begin." : "Press enter when you're ready to have your mind blown.";
+        Console.WriteLine("{0}", message);
+        Console.ReadLine();
+
+        Console.WriteLine("Think of any whole number. Keep this number in your head.");
+        Console.WriteLine("Press enter when you're ready to move on.");
+        Console.ReadLine();
+
+        Console.WriteLine("Now, I know I'm a computer, but you're going to have to do the math for this trick, so you'll know I'm not cheating.");
+        Console.WriteLine("Multiply your number by two. When you have the answer, press enter.");
+        Console.ReadLine();
+
+        Console.WriteLine("Now, add 10 to your total.");
+        Console.WriteLine("Press enter when ready.");
+        Console.ReadLine();
+
+        Console.WriteLine("Now, divid your total by 2");
+        Console.WriteLine("Don't forget your total. Press enter when you're ready.");
+        Console.ReadLine();
+
+        Console.WriteLine("We're nearly done. The last step is to subtract your original number from the total.");
+        Console.WriteLine("Are you ready to see if I can read your mind? Press enter.");
+        Console.ReadLine();
+
+        Console.WriteLine("Your final total is 5!");
+
+        Console.WriteLine("Are you amazed?");
+        userValue = Console.ReadLine();
+
+        if (userValue == "Yes" || userValue == "yes" || userValue == "sorta")
+          Console.WriteLine("I knew you would be. Prese enter to see it.");
+
+        else if (userValue == "No" || userValue == "no")
+          Console.WriteLine("You should be.");
+
+        else
+          Console.WriteLine("Press enter to continue.");
+
+        Console.WriteLine("Want to know a secret?");
+        userValue = Console.ReadLine();
+
+        if (userValue == "Yes" || userValue == "yes" || userValue == "I guess")
+          Console.WriteLine("The answer will always be 5");
+
+        else
+          Console.WriteLine("Then I guess you'll never know how I was psychic. Press enter to exit.");
+
+        Console.ReadLine();
+
+      }
+
+    }
+
+}
