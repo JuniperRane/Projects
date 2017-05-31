@@ -1,0 +1,84 @@
+#include <stdio.h>
+
+char *strcat406(char *str, char *str2)
+{
+
+  char *dest = str;
+  char *source = str2;
+  
+  while(*dest != '\0')
+    dest += 1;
+
+  while(*source != '\0')
+  {
+
+    *dest = *source;
+    source += 1;
+    dest += 1;
+
+  }
+
+  *dest = '\0';
+  return str;
+
+  }
+
+  char  *strchr406(char str[], char ch)
+  {
+
+    char *s = str;
+    while(*s != '\0')
+    {
+
+      if(*s == ch)
+      return s;
+      s++;
+
+    }
+    return 0;
+
+  }
+ 
+ char *strncpy406(char *str, char *str2, int len)
+  {
+
+    char *dest = str;
+    char *source = str2;
+
+    int i;
+    
+    for(i = 0; i < len; i++)
+    {
+
+      *dest = *source;
+      source += 1;
+      dest += 1;
+
+    }
+    
+    *dest = '\0';
+    return str;
+
+  }
+
+  int atoi406(char *str)
+  {
+
+    char *source = str;
+    int i;
+    int temp = 0;
+    
+    for(i = 0; *source != '\0'; i++)
+    {
+
+      if((int)*source < 48 || (int)*source > 57)
+      return 0;
+      temp *= 10;
+      temp += (int)*source - 48;
+      source++;
+    }
+    
+    return temp;
+  }
+  
+}
