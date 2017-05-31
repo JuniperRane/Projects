@@ -1,0 +1,349 @@
+import java.util.*;
+import javax.swing.*;
+
+public class Game 
+{
+	
+	public static void main(String[] args)
+	{
+		playGame();
+	}
+	
+	static String move;
+	static String turn;
+	static String answer;
+	static boolean cat = false;
+	static boolean win = false;
+	static boolean topRight = false;
+	static boolean midRight = false;
+	static boolean botRight = false;
+	static boolean topMid = false;
+	static boolean midMid = false;
+	static boolean botMid = false;
+	static boolean topLeft = false;
+	static boolean midLeft = false;
+	static boolean botLeft = false;
+	static int turnCount = 0;
+	
+	static Scanner input = new Scanner(System.in);
+	
+	static String arrayTop[] = {" ", "|", " ", "|", " "};
+	static String arrayLines[] = {"_", "_", "_", "_", "_"};
+	static String arrayMid[] = {" ", "|", " ", "|", " "};
+	static String arrayBot[] = {" ", "|", " ", "|", " "};
+	
+	
+	public static void playGame()
+	{
+		reset();
+		
+		do
+		{
+			//prints game board
+			printBoard();
+			
+			//gets next move and updates move counter
+			getMove(turnCount);
+			turnCount++;	
+			
+		}
+		while(!win);
+		
+		//prints if game has been won 
+		if(!cat)
+		{
+			System.out.println("Congratulations - " + turn + " is the winner!");
+		}
+
+		//prints winning or draw board
+		printBoard();
+		
+		//asks player if they'd like to play again
+		System.out.println("Play Again?  Y/N >>  ");
+		answer = input.nextLine();
+		
+		if (answer.equals("Y"))
+		{
+			playGame();
+		}		
+		
+	}
+	
+	public static int getMove(int i)
+	{
+			//checks to see if it is the turn of player X or player O based on turn number
+			if (i % 2 == 0)
+				turn = "X";
+			else
+				turn = "O";
+			
+			
+			System.out.println("Player " + turn);
+			System.out.println("Please enter a 2 character move from the following list:");
+			System.out.println("Top Left = TL    | Top Middle = TM    | Top Right = TR");
+			System.out.println("Middle Left = ML | Middle Middle = MM | Middle Right = MR");
+			System.out.println("Bottom Left = BL | Bottom Middle = BM | Bottom Right = BR");
+			answer = input.nextLine();
+			
+			assignAnswer(answer);
+			
+			//this checks for win at turn 5, the first turn where a win can occur
+			if (i >= 4)
+				checkWin();						
+		
+		return 0;
+	}
+	
+	//Check answers for move, if the move is legal, and updates the board, and sets the boolean so future moves can know if the move is legal.
+	public static void assignAnswer(String answer)
+	{
+		if(answer.equals("TR"))
+		{		
+			if(topRight)
+			{
+				System.out.println("Illegal Move.  Please try again >> ");
+				answer = input.nextLine();
+				assignAnswer(answer);
+			}
+			else
+			{
+				arrayTop[4] = turn;
+				topRight = true;
+			}
+		}	
+		
+		else if(answer.equals("TM"))
+		{	
+			if(topMid)
+			{
+				System.out.println("Illegal Move.  Please try again >> ");
+				answer = input.nextLine();
+				assignAnswer(answer);
+			}
+			else
+			{
+				arrayTop[2] = turn;
+				topMid = true;
+			}
+		}
+			
+		else if(answer.equals("TL"))
+		{
+			if(topLeft)
+			{
+				System.out.println("Illegal Move.  Please try again >> ");
+				answer = input.nextLine();
+				assignAnswer(answer);
+				
+			}
+			else
+			{
+				arrayTop[0] = turn;
+				topLeft = true;
+			}
+		}
+	
+		else if(answer.equals("MR"))
+		{
+			if(midRight)
+			{
+				System.out.println("Illegal Move.  Please try again >> ");
+				answer = input.nextLine();
+				assignAnswer(answer);
+			}
+			else
+			{	
+				arrayMid[4] = turn;
+				midRight = true;
+			}
+		}
+			
+		else if(answer.equals("MM"))
+		{
+			if(midMid)
+			{
+				System.out.println("Illegal Move.  Please try again >> ");
+				answer = input.nextLine();
+				assignAnswer(answer);
+			}
+			else
+			{
+				arrayMid[2] = turn;
+				midMid = true;
+			}
+		}
+			
+		else if(answer.equals("ML"))
+		{
+			if(midLeft)
+			{
+				System.out.println("Illegal Move.  Please try again >> ");
+				answer = input.nextLine();
+				assignAnswer(answer);
+			}
+			else
+			{	
+				arrayMid[0] = turn;		
+				midLeft = true;
+			}
+		}
+			
+		else if(answer.equals("BR"))
+		{
+			if(botRight)
+			{
+				System.out.println("Illegal Move.  Please try again >> ");
+				answer = input.nextLine();
+				assignAnswer(answer);
+			}
+			else
+			{	
+				arrayBot[4] = turn;
+				botRight = true;
+			}
+		}
+			
+		else if(answer.equals("BM"))
+		{
+			if(botMid)
+			{
+				System.out.println("Illegal Move.  Please try again >> ");
+				answer = input.nextLine();
+				assignAnswer(answer);
+			}
+			else
+			{
+				arrayBot[2] = turn;
+				botMid = true;
+			}
+		}	
+			
+		else if(answer.equals("BL"))
+		{
+			if(botLeft)
+			{
+				System.out.println("Illegal Move.  Please try again >> ");
+				answer = input.nextLine();
+				assignAnswer(answer);
+			}
+			else
+			{	
+				arrayBot[0] = turn;	
+				botLeft = true;
+			}
+		}
+			
+		else
+		{
+			System.out.println("Answer not recoginized.  Please try again >> ");
+			answer = input.nextLine();
+			assignAnswer(answer);
+		}
+			
+	}
+	
+	//Checks to see if the game has been won
+	public static void checkWin()
+	{
+				
+		//win Top Row
+		if(arrayTop[0].equals(arrayTop[4]) && arrayTop[0].equals(arrayTop[2]) && !arrayTop[0].equals(" ")) 
+		{
+			win = true;
+		}
+		
+		//win Middle Row
+		else if(arrayMid[0].equals(arrayMid[2]) && arrayMid[0].equals(arrayMid[4]) && !arrayMid[0].equals(" "))
+		{
+			win = true;
+		}
+		
+		//win Bottom Row
+		else if(arrayBot[0].equals(arrayBot[2]) && arrayBot[0].equals(arrayBot[4])  && !arrayBot[0].equals(" "))
+		{	
+			win = true;
+		}
+		
+		//win Top to Bottom, Left to Right Diagonal
+		else if(arrayTop[0].equals(arrayMid[2]) && arrayTop[0].equals(arrayBot[4])  && !arrayTop[0].equals(" "))
+		{	
+			win = true;
+		}
+				
+		//win Top to Bottom, Right to Left Diagonal
+		else if(arrayTop[4].equals(arrayMid[2]) && arrayTop[4].equals(arrayBot[0]) && !arrayTop[4].equals(" "))
+		{
+			win = true;
+		}
+		
+		//win Left Vertical
+		else if(arrayTop[0].equals(arrayMid[0]) && arrayTop[0].equals(arrayBot[0]) && !arrayTop[0].equals(" "))
+		{	
+			win = true;
+		}
+				
+		//win Left Vertical
+		else if(arrayTop[4].equals(arrayMid[4]) && arrayTop[4].equals(arrayBot[4]) && !arrayTop[4].equals(" "))
+		{
+			win = true;
+		}
+		
+		//win Middle Vertical
+		else if(arrayTop[2].equals(arrayMid[2]) && arrayTop[2].equals(arrayBot[2]) && !arrayTop[2].equals(" "))
+		{
+			win = true;
+		}
+
+		//Checks to see if the game is unwinnable aka a "cat" game
+		else if(turnCount == 8)
+		{
+			cat = true;
+			win = true;
+			System.out.println("Cat game, no winner");
+		}
+		
+		//if none of the above conditions have been met, the game has not been won or drawn
+		else
+			win = false;
+		
+	}
+
+		//prints out the game board
+		public static void printBoard()
+		{
+			System.out.println(arrayTop[0] + arrayTop[1] + arrayTop[2] + arrayTop[3] + arrayTop[4]);
+			System.out.println(arrayLines[0] + arrayLines[1] + arrayLines[2] + arrayLines[3] + arrayLines[4]);
+			System.out.println(arrayMid[0] + arrayMid[1] + arrayMid[2] + arrayMid[3] + arrayMid[4]);
+			System.out.println(arrayLines[0] + arrayLines[1] + arrayLines[2] + arrayLines[3] + arrayLines[4]);
+			System.out.println(arrayBot[0] + arrayBot[1] + arrayBot[2] + arrayBot[3] + arrayBot[4]);
+			
+		}
+		
+		//resets the board and win boolean
+		public static void reset()
+		{
+			
+			arrayTop[0] = " ";
+			arrayTop[2] = " ";
+			arrayTop[4] = " ";
+			arrayMid[0] = " ";
+			arrayMid[2] = " ";
+			arrayMid[4] = " ";
+			arrayBot[0] = " ";
+			arrayBot[2] = " ";
+			arrayBot[4] = " ";
+			cat = false;
+			win = false;
+			topRight = false;
+			midRight = false;
+			botRight = false;
+			topMid = false;
+			midMid = false;
+			botMid = false;
+			topLeft = false;
+			midLeft = false;
+			botLeft = false;
+			turnCount = 0;
+			
+		}
+}
