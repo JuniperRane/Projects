@@ -1,0 +1,69 @@
+import java.util.Arrays;
+
+public class RotString //check if one word is a rotation/substring of another using only one call to isSubstring
+{
+
+	public static void main(String[] args) 
+	{
+		String s1 = "waterbottle";
+		String s2 = "erbottlewat";
+		String s3 = "rattlebotwo";
+		String s4 = "bet";
+		String s5 = "ebt";
+		
+		isSubstring(s1, s2);
+		isSubstring(s2, s3);
+		isSubstring(s1, s4);
+		isSubstring(s4, s5);
+
+	}
+	
+	public static boolean isSubstring(String s1, String s2)
+	{
+		int len1 = s1.length();
+		int len2 = s2.length();
+		int i;
+		
+		if (len1 != len2)
+		{
+			System.out.println("Strings " + s1 + " and " + s2 + " are not a rotation of each other");
+			return false;
+		}
+		
+		/*boolean letters[] = new boolean[256];
+		
+		for (i = 0; i < len1; i++)
+		{
+			letters[s1.charAt(i)] = true;
+		}
+		
+		for (i = 0; i < len2; i++)
+		{
+			if(letters[s2.charAt(i)] != true)
+			{	
+				System.out.println("Strings" + s1 + " and " + s2 + " are not a rotation of each other");
+				return false;
+			}
+		} */
+		
+		char stringOne[] = s1.toCharArray();
+		char stringTwo[] = s2.toCharArray();
+		
+		Arrays.sort(stringOne);
+		Arrays.sort(stringTwo);
+		
+		for (i = 0; i < len1; i++)
+		{
+			if(stringOne[i] != stringTwo[i])
+			{
+				System.out.println("Strings " + s1 + " and " + s2 + " are not a rotation of each other");
+				return false;
+			}
+		}
+		
+		System.out.println("Strings " + s1 + " and " + s2 + " are a rotation of each other");
+		return true;
+		
+	}
+
+}
