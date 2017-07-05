@@ -1,0 +1,37 @@
+public class ReplaceSpaces  //replace spaces in a string with %20
+{
+
+	public static void main(String[] args) 
+	{
+		
+		char original[] = "Mr John Smith    ".toCharArray();
+		System.out.println(original);
+		replace(original, 13);		
+		
+		System.out.println(original);
+		
+	}
+	
+	public static void replace(char str[], int len)
+	{
+		int i;
+		
+		StringBuilder sentence = new StringBuilder();
+		
+		for (i = 0; i < str.length; i++)
+		{
+			if(str[i] == ' ')
+				sentence.append("%20");
+			else
+				sentence.append(str[i]);			
+		}				
+		
+		
+		for (i = 0; i < str.length; i++)
+		{
+			str[i] = sentence.charAt(i); 
+		}
+ 		
+	}
+
+}
