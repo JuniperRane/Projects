@@ -1,0 +1,44 @@
+public class stringCompress //perform basic string compression using the counts of repeated characters
+{
+
+	public static void main(String[] args) 
+	{
+		toCompress("aabcccccaaa");
+		toCompress("abcdefg");
+	}
+
+	public static String toCompress(String str)
+	{
+		int length = str.length();
+		
+		StringBuilder buildString = new StringBuilder(str.length());
+		int count;
+		
+		for (int i = 0; i < length; i++)
+		{	
+			count = 1;
+			
+			while ((i+1) < length && str.charAt(i) == str.charAt(i+1))
+			{
+				count++;
+				i++;
+			}
+			
+			buildString.append(str.charAt(i));			
+			buildString.append(count);	
+		}					
+		
+		String compressedString = buildString.toString();	
+		
+		if (compressedString.length() < length)
+		{
+			System.out.println("The compressed version of the string " + str + " is smaller: " + compressedString);
+			return compressedString;
+		}
+		else
+		{
+			System.out.println("The compressed version of the string " + str + " is not smaller.");
+			return str;
+		}
+	}
+}
