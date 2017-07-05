@@ -1,0 +1,58 @@
+import java.util.Arrays;
+
+public class CheckPermutation //determine if one string is a permutation of the other
+{
+
+	public static void main(String[] args) 
+	{
+		String perm1 = "rat";
+		String perm2 = "tar";
+		String noPerm = "car";
+		String empty = "";
+		String permLong = "star";
+
+		isPerm(perm1, perm2);
+		isPerm(perm2, noPerm);
+		isPerm(perm1, noPerm);
+		isPerm(perm2, empty);
+		isPerm(permLong, perm1);
+	}
+	
+	public static boolean isPerm(String str, String str2)
+	{
+		if (str.length() == 0 || str2.length() == 0)
+		{
+			System.out.println("no string to check agianst");
+			return false;			
+		}
+		
+		if (str.length() != str2.length())
+		{
+			System.out.println("Strings are not permutations of each other");
+			return false;
+		}
+		
+		int count[] = new int[256];
+		char letters[] = str.toCharArray();
+		
+		
+		for (char val : letters)
+			count[val]++;
+				
+		for (int i = 0; i < str2.length(); i++)
+		{
+			int val = (int) str2.charAt(i);
+			count[val]--;
+			
+			if (count[val] < 0)
+			{
+				System.out.println("The strings are not permutations");
+				return false;
+			}					
+			
+		}
+		System.out.println("These strings are permutations");
+		return true;
+	}
+
+}
