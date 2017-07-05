@@ -1,0 +1,51 @@
+import java.util.LinkedList;
+import java.util.Random;
+
+public class KthToLast //Implement an algorithm to find the kth to last element of a singly linked list
+{
+
+	public static void main(String[] args) 
+	{
+		int n = 2;
+		LinkedList list = new LinkedList();
+		LinkedList longList = new LinkedList();
+		
+		list.add(1);
+		list.add(2);
+		list.add(3);
+		
+		//list.get(getlast() - n);
+		
+		findElement(list, n);
+		
+		n=0;
+		
+		for(int i = 1; i < 101; i++)
+		{
+			longList.add(i);
+			n++;
+		}		
+		
+		findElement(longList, n);
+		
+		Random rand = new Random();
+		n = rand.nextInt(100);
+		
+		findElement(longList, n);
+	}
+	
+	public static void findElement(LinkedList list, int n)
+	{
+		int length = list.size();
+		int current = 0;
+		
+		Object[] arr = list.toArray();
+		
+		for(int i = 0; i < length - n; i++)
+		{
+			current = (int) arr[i];
+		}
+		System.out.println("The Kth '" + n + "' to last element of this LinkedList is " + current);
+	}
+
+}
