@@ -1,0 +1,46 @@
+
+public class CheckString  //determine if a string has all unique characters
+{
+
+	public static void main(String[] args) 
+	{
+		String same = "aabbcd";
+		String diff = "ifjedcba";
+		String tooLong = "abcdefghijklmnopqrstuvwxyzaabcdefghijklmnopqrstuvwxyzaabcdefghijklmnopqrstuvwxyzaabcdefghijklmnopqrstuvwxyzaabcdefghijklmnopqrstuvwxyzaabcdefghijklmnopqrstuvwxyzaabcdefghijklmnopqrstuvwxyzaabcdefghijklmnopqrstuvwxyzaabcdefghijklmnopqrstuvwxyzaabcdefghijklmnopqrstuvwxyza";
+		
+		isUnique(same);
+		isUnique(diff);
+		isUnique(tooLong);
+		
+		
+
+	}
+	
+	public static boolean isUnique(String str)
+	{
+		if(str.length() > 256)
+		{
+			System.out.println("This string is too long");
+			return false;		
+		}
+		
+		boolean count[] = new boolean[256];
+		
+		int i;
+
+		for (i = 0; i < str.length(); i++)
+		{
+			int val = (int)str.charAt(i);
+			if(count[val] == true)
+			{
+				System.out.println("This string does not have unique charcaters");
+				return false;
+			}
+			count[val] = true;
+			
+		}
+		System.out.println("This string has unique characters");
+		return true;
+	}
+
+}
