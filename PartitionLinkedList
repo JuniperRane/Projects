@@ -1,0 +1,180 @@
+
+public class NodeLinkList  //partition a linked list around a value x, such that all nodes less than x come before all nodes greater than
+	//or equal to x.  If x is in the list, the values of x only need to be after the elements less than x.
+{
+
+	Node head;
+	
+	public void add(char d)
+	{
+		if (head == null)
+		{
+			head = new Node(d);
+		}
+		else
+		{
+			Node current = head;
+			while (current.next != null)
+			{
+				current = current.next;
+			}
+			current.next = new Node(d);
+		}
+	}
+	
+	public void add(int d)
+	{
+		if (head == null)
+		{
+			head = new Node(d);
+		}
+		else
+		{
+			Node current = head;
+			while (current.next != null)
+			{
+				current = current.next;
+			}
+			current.next = new Node(d);
+		}
+	}
+	
+	
+
+	class Node
+	{
+		Node next;
+		char data;
+		int val;
+	
+		public Node(char d)
+		{
+			data = d;
+		}	
+		
+		public Node(int d)
+		{
+			val = d;
+		}	
+		
+	}
+	
+	public void partition(int n)
+	{
+		Node current = head;
+		Node smaller = head;
+		int temp;
+		
+		while(current != null)
+		{
+			if (current.val >= n)
+			{
+				if(current.next == null)
+					return;
+				
+				smaller = current.next;
+				while(smaller.val >= n && smaller.next != null)
+					smaller = smaller.next;
+				if (smaller.val < n)
+				{
+					temp = current.val;
+					current.val = smaller.val;
+					smaller.val = temp;
+				}
+			}
+			current = current.next;
+		}
+	}
+	
+	public void removeDups()
+	{
+		boolean duplicate[] = new boolean[256];
+		
+		Node current = head;
+		
+		while (current != null)
+		{
+			if(duplicate[(int)current.data] == true)
+				deleteNode(current);
+			else
+			{
+				duplicate[(int)current.data] = true;
+
+			}
+			
+			current = current.next;
+		}
+
+	}
+	
+	public void deleteLetter(char del)
+	{
+		Node current = head;
+		while (current != null)
+		{
+			if (current.data == del)
+			{
+				deleteNode(current);
+				return;	
+			}
+			current = current.next;
+		}
+	}
+	
+	public void deleteNode(Node trash)
+	{
+		Node current = trash;
+		
+	
+		
+		if (current.next != null)
+		{
+			current.data = current.next.data;
+			current.next = current.next.next;
+			
+		}
+		
+		else
+		{
+			Node cur = head;
+			
+			if(cur == trash)
+			{
+				cur = cur.next;
+				return;
+			}
+			
+			while (cur.next != null)
+			{
+				if (cur.next == trash)
+				{
+					cur.next = cur.next.next;
+					return;
+				}
+				
+				else if (cur.next.next == null)
+				{
+					cur.next = null;
+					return;
+				}
+				
+				cur = cur.next;
+			} 
+		} 
+	
+		return;
+	}
+	
+	public void printList()
+	{
+		Node current = head;
+		
+		while(current != null)
+		{
+			System.out.print(current.val + " ");
+			current = current.next;
+		}
+		System.out.println();
+	}
+}
+
