@@ -1,0 +1,114 @@
+import java.util.Arrays;
+
+import org.omg.CORBA.SystemException;
+
+public class OneAway //write a function to see if a string is one edit (insert, remove, replace) from another
+{
+
+	public static void main(String[] args) 
+	{
+		isOneAway("pale", "ple");
+		isOneAway("pales", "pale");
+		isOneAway("pale", "bale");
+		isOneAway("pale", "bake");
+		isOneAway("take", "tailor");
+		isOneAway("aaab", "bbaa");
+		isOneAway("great", "greets");
+	}
+
+	
+	public static boolean isOneAway(String str, String str2)
+	{
+		int lengthOne = str.length();
+		int lengthTwo = str2.length();
+		int j = 0;
+
+		
+		if (lengthOne - lengthTwo < -1 || lengthTwo - lengthOne < -1)
+		{
+			System.out.println("Strings " + str + " and " + str2 + " are not one edit away from each other");
+			return false;
+		}
+		
+		//boolean justOne[] = new boolean[256];
+		int offCount = 0;
+		int i = 0;
+		
+		char first[] = str.toCharArray();
+		char second[] = str2.toCharArray();
+					
+		if(lengthOne == lengthTwo)
+		{	
+			for (i = 0; i < lengthOne && i < lengthTwo; i++)
+			{
+				if (first[i] != second[i])
+				{
+					offCount++;
+					
+					if (offCount > 1)
+					{
+						System.out.println("Strings " + str + " and " + str2 + " are not one edit away from each other");
+						return false;
+					}	
+				}
+			}
+		}
+		
+		
+		
+		else
+		{
+			if (lengthOne > lengthTwo)
+			{
+				while (i < lengthTwo)
+				{
+					if (first[j] != second[i])
+					{
+						offCount++;
+						j++;
+						
+						if (offCount > 1)
+						{
+							System.out.println("Strings " + str + " and " + str2 + " are not one edit away from each other");
+							return false;
+						}	
+					}
+					i++;
+					j++;
+				}
+				System.out.println("Strings " + str + " and " + str2 + " are one edit away from each other");
+				return true;
+			}	
+				
+			else 
+			{
+				while (i < lengthOne)
+				{
+					if (first[i] != second[j])
+					{
+						offCount++;
+						j++;
+							
+						if (offCount > 1)
+						{
+							System.out.println("Strings " + str + " and " + str2 + " are not one edit away from each other");
+							return false;
+						}	
+					}
+					i++;
+					j++;
+				}
+				System.out.println("Strings " + str + " and " + str2 + " are one edit away from each other");
+				return true;
+			}
+			
+		}
+		
+		
+	
+			System.out.println("Strings " + str + " and " + str2 + " are one edit away from each other");
+			return true;
+		
+		
+	}
+}
