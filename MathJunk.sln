@@ -1,31 +1,171 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathJunk", "MathJunk\MathJunk.vcxproj", "{19B9E810-35D1-4D5C-B25D-26676ED4D7A0}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{19B9E810-35D1-4D5C-B25D-26676ED4D7A0}.Debug|x64.ActiveCfg = Debug|x64
-		{19B9E810-35D1-4D5C-B25D-26676ED4D7A0}.Debug|x64.Build.0 = Debug|x64
-		{19B9E810-35D1-4D5C-B25D-26676ED4D7A0}.Debug|x86.ActiveCfg = Debug|Win32
-		{19B9E810-35D1-4D5C-B25D-26676ED4D7A0}.Debug|x86.Build.0 = Debug|Win32
-		{19B9E810-35D1-4D5C-B25D-26676ED4D7A0}.Release|x64.ActiveCfg = Release|x64
-		{19B9E810-35D1-4D5C-B25D-26676ED4D7A0}.Release|x64.Build.0 = Release|x64
-		{19B9E810-35D1-4D5C-B25D-26676ED4D7A0}.Release|x86.ActiveCfg = Release|Win32
-		{19B9E810-35D1-4D5C-B25D-26676ED4D7A0}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D340DF3D-3083-46DA-AA1D-8DA5FCC4DB2B}
-	EndGlobalSection
-EndGlobal
+#define _USE_MATH_DEFINES
+
+#include <cmath>
+#include <stdio.h>
+
+using namespace std;
+
+double* normalize(double *initialVector)
+{
+	double normal[3];
+	double magnitude = 0;
+
+	magnitude += initialVector[0] * initialVector[0];
+	magnitude += initialVector[1] * initialVector[1];
+	magnitude += initialVector[2] * initialVector[2];
+	magnitude = sqrt(magnitude);
+
+	for (int i = 0; i < 3; i++)
+	{
+		normal[i] = initialVector[i] / magnitude;
+	}
+
+	return normal;
+}
+
+int main()
+{
+	double theta = M_PI / 4.0;
+	double c = cos(theta);
+	double s = sin(theta);
+	double t = 1 - c;
+	double x = 0.0;
+	double y = 0.0;
+	double z = 0.0;
+	double VectorX = 2;
+	double VectorY = -1;
+	double VectorZ = 2;
+
+	double fwdVector[3] = { 2.0, -3.0, -1.0 };
+	double upVector[3] = { 6.0, 5.0, -3.0 };
+	double leftVector[3];
+
+	leftVector[0] = upVector[1] * fwdVector[2] - upVector[2] * fwdVector[1];
+	leftVector[1] = upVector[2] * fwdVector[0] - upVector[0] * fwdVector[2];
+	leftVector[2] = upVector[0] * fwdVector[1] - upVector[1] * fwdVector[0];
+
+	double *normVect = normalize(upVector);
+	x = normVect[0];
+	y = normVect[1];
+	z = normVect[2];
+
+	double magnitudeOrg = 0;
+	magnitudeOrg += fwdVector[0] * fwdVector[0];	
+	magnitudeOrg += fwdVector[1] * fwdVector[1];	
+	magnitudeOrg += fwdVector[2] * fwdVector[2];	
+	magnitudeOrg = sqrt(magnitudeOrg);
+	printf("\nOriginal Magnitude: %f \n", magnitudeOrg);
+
+	printf("ForwardVector: %.4f, %.4f, %.4f\n", fwdVector[0], fwdVector[1], fwdVector[2]);
+	printf("UpVector: %.4f, %.4f, %.4f\n", upVector[0], upVector[1], upVector[2]);
+	printf("Normalized upVector: %.4f %.4f %.4f\n\n", x, y, z);
+
+	double R[4][4];
+	R[0][0] = t*x*x + c;
+	R[0][1] = t*x*y - s*z;
+	R[0][2] = t*x*z + s*y;
+	R[0][3] = 0;
+	R[1][0] = t*x*y + s*z;
+	R[1][1] = t*y*y + c;
+	R[1][2] = t*y*z - s*x;
+	R[1][3] = 0;
+	R[2][0] = t*x*z - s*y;
+	R[2][1] = t*y*z + s*x;
+	R[2][2] = t*z*z + c;
+	R[2][3] = 0;
+	R[3][0] = 0;
+	R[3][1] = 0;
+	R[3][2] = 0;
+	R[3][3] = 1;
+	int row;
+	int col;
+
+
+	printf("\nMatrix Practice Q1.1\n");
+	for (row = 0; row < 4; row++)
+	{
+		for (col = 0; col < 4; col++)
+		{
+			printf("%.4f    ", R[row][col]);
+		}
+		printf("\n");
+	}
+
+	double result[3] = { 0.0, 0.0, 0.0 };
+
+	for (row = 0; row < 3; row++)
+	{
+		for (col = 0; col < 3; col++)
+		{
+			result[row] += R[row][col] * fwdVector[col];
+		}
+	}
+	printf("\nAnswer Practice Q1.1 %.4f %.4f %.4f\n\n", result[0], result[1], result[2]);
+
+	double magnitudeNew = 0;
+	magnitudeNew += result[0] * result[0];
+	//printf("New Magnitude (%d,  ", magnitudeNew);
+	magnitudeNew += result[1] * result[1];
+	//printf("%d,  ", magnitudeNew);
+	magnitudeNew += result[2] * result[2];
+	//printf("%d)\n", magnitudeNew);
+	magnitudeNew = sqrt(magnitudeNew);
+	printf("Magnitude: %f ", magnitudeNew);
+
+	theta = M_PI / 8.0;
+	c = cos(theta);
+	s = sin(theta);
+	t = 1 - c;
+
+	printf("\nLeftVector: %.4f %.4f %.4f \n", leftVector[0], leftVector[1], leftVector[2]);
+
+	normVect = normalize(leftVector);
+	x = normVect[0];
+	y = normVect[1];
+	z = normVect[2];
+
+	printf("Normalized Vector: %.4f %.4f  %.4f \n", normVect[0], normVect[1], normVect[2]);
+
+	R[0][0] = t*x*x + c;
+	R[0][1] = t*x*y - s*z;
+	R[0][2] = t*x*z + s*y;
+	R[0][3] = 0;
+	R[1][0] = t*x*y + s*z;
+	R[1][1] = t*y*y + c;
+	R[1][2] = t*y*z - s*x;
+	R[1][3] = 0;
+	R[2][0] = t*x*z - s*y;
+	R[2][1] = t*y*z + s*x;
+	R[2][2] = t*z*z + c;
+	R[2][3] = 0;
+	R[3][0] = 0;
+	R[3][1] = 0;
+	R[3][2] = 0;
+	R[3][3] = 1;
+
+	printf("\nMatrix Practice Q1.2\n");
+	for (row = 0; row < 4; row++)
+	{
+		for (col = 0; col < 4; col++)
+		{
+			printf("%.4f    ", R[row][col]);
+		}
+		printf("\n");
+	}
+
+	result[0] = 0.0;
+	result[1] = 0.0;
+	result[2] = 0.0;
+
+	for (row = 0; row < 3; row++)
+	{
+		for (col = 0; col < 3; col++)
+		{
+			result[row] += R[row][col] * fwdVector[col];
+		}
+	}
+	printf("\nAnswer Practice Q1.2: %.4f %.4f %.4f\n", result[0], result[1], result[2]);
+
+	getchar();
+	return 0;
+}
